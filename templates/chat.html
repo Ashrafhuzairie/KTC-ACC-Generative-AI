@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTC AI Assistant</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="chat-container">
+        <!-- Header Branding -->
+        <div class="header-branding">
+            <img src="{{ url_for('static', filename='KTC.jpg') }}" alt="KTC Logo">
+            <h2>KTC-AI Assistant</h2>
+				<h6>Building People Building Trust</h6>
+        </div>
+
+        <!-- Chat Display -->
+        <div id="messageDisplay">
+            <p><strong>Welcome!</strong> Ask me anything.</p>
+        </div>
+
+        <!-- Input Area -->
+        <form id="messageForm">
+            <input type="text" id="textInput" class="search-box" placeholder="Hi, ask me something in knowledge portal..." required>
+            <button type="submit" class="search-btn">Send</button>
+        </form>
+    </div>
+
+<!-- Copyright Footer -->
+<footer class="copyright-footer">
+    &copy; <span id="year"></span> Ashraf Huzairie. All rights reserved.
+</footer>
+
+<script>
+    $(document).ready(function() {
+        $("#messageForm").on("submit", function(event) {
+            event.preventDefault();
+
+            const userText = $("#textInput").val();
+            const messageDisplay = $("#messageDisplay");
+            const botAvatarUrl = "{{ url_for('static', filename='KTC.jpg') }}";
+
+            // Append user message
+            messageDisplay.append('<div class="msg_cotainer_send"><strong>You:</strong> ' + userText + '<span class="msg_time_send">' + new Date().toLocaleTimeString() + '</span></div>');
+
+            // Clear input
+            $("#textInput").val("");
+
+            // Send request to backend
+            $.ajax({
+                data: { msg: userText },
+                type: "POST",
+                url: "/get",
+            }).done(function(response) {
+                messageDisplay.append('<div class="msg_cotainer"><strong>KTC AI:</strong> ' + response + '<span class="msg_time">' + new Date().toLocaleTimeString() + '</span></div>');
+                messageDisplay.scrollTop(messageDisplay[0].scrollHeight);
+            });
+        });
+
+        // Ensure year updates dynamically
+        document.getElementById("year").innerText = new Date().getFullYear();
+    });
+</script>
+
+
+</body>
+</html>
