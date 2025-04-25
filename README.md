@@ -92,7 +92,8 @@ open up localhost:
 
 	
 ## 3. Create ECR repo to store/save docker image
-    - Save the URI: 728553996122.dkr.ecr.ap-southeast-1.amazonaws.com/ktcassistantbot
+    - Save the URI:728553996122.dkr.ecr.ap-southeast-1.amazonaws.com/ktcassistantbot
+	
 
 	
 ## 4. Create EC2 machine (Ubuntu) 
